@@ -74,12 +74,12 @@ T inv_mod(T a, T b){
     return bin_exp(a, b - 2);
 }
  
-ll factorial[1000001];
+ll factorial[2000001];
  
 void Compute_Factorial(){
     factorial[0] = 1;
     factorial[1] = 1;
-    for(ll i = 2; i < 1000001; i++) factorial[i] = (factorial[i - 1] * i) % MOD;
+    for(ll i = 2; i < 2000001; i++) factorial[i] = (factorial[i - 1] * i) % MOD;
 }
  
 // template<typename T>
@@ -106,7 +106,8 @@ int main(){
     #endif
 
     //Write your code Here.
-
+    int n, m; cin >> n >> m;
+    cout << nCr(m + n - 1, n - 1);
     
     return 0;
 }

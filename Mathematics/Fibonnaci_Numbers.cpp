@@ -97,6 +97,40 @@ T nCr(T n, T r){
     return ((factorial[n] * inv_mod(factorial[r], ll(MOD))) % MOD * inv_mod(factorial[n - r], ll(MOD))) % MOD;
 }
 
+vector<vll> mat_mul(vector<vll> a, vector<vll> b){
+    vector<vll> res;
+    rep(i, 0, a.size()){
+        vll temp;
+        rep(j, 0, b[0].size()){
+            ll val = 0;
+            rep(k, 0, a[0].size()){
+                val += (a[i][k] * b[k][j]) % MOD;
+            }
+            temp.pb(val);
+        }
+        res.pb(temp);
+    }
+    return res;
+}
+
+vector<vll> mat_bin_exp(vector<vll> a, ll b){
+    vector<vll> res;
+    rep(i, 0, a.size()){
+        vll temp;
+        rep(j, 0, a[0].size()){
+            if(i == j)temp.pb(1);
+            else temp.pb(0);
+        }
+        res.pb(temp);
+    }
+    while(b){
+        if(b & 1) res = mat_mul(res, a);
+        b = b >> 1;
+        a = mat_mul(a, a);
+    }
+    return res;
+}
+
 int main(){
     FAST_IO;
 
@@ -106,7 +140,11 @@ int main(){
     #endif
 
     //Write your code Here.
-
-    
+    ll n; cin >> n;
+    vector<vll> fib_mat = {{0, 1}, {1, 1}};
+    vector<vll> res_fib_mat = mat_bin_exp(fib_mat, n);
+    vector<vll> init_mat = {{0}, {1}};
+    vector<vll> ans_mat = mat_mul(res_fib_mat, init_mat);
+    cout << ans_mat[0][0];
     return 0;
 }

@@ -1,45 +1,46 @@
 #include<iostream> // basic input output
-
+ 
 //Some commonly used libraries
 #include<algorithm>
 #include<math.h>
 #include<limits.h>
-
+ 
 // STL containers
 #include<vector> 
 #include<map>
 #include<set>
 #include<queue>
 #include<stack>
-
+#include<string>
+ 
 using namespace std;
 // Few short hand notations for data types
 typedef long long ll;
 typedef vector<int> vi;
 typedef vector<long long> vll;
 typedef pair<int,int> pi;
-
+ 
 // Other short hand notations
 #define f first
 #define s second
 #define pb push_back
 #define rep(i,a,b) for (int i = a; i < b; i++)
-
+ 
 // Used for faster input/output
 #define FAST_IO ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
-
+ 
 // Constants
 #define MOD 1000000007
 #define INF 1e9;
 #define LINF 1e18;
-
+ 
 // Helper functions
 template <typename T>
 void print_vector(vector<T>& vec){
     for(auto ele : vec) cout << ele << " ";
     cout << '\n';
 }
-
+ 
 template <typename T>
 T bin_exp(T a, T b){
     T res = 1;
@@ -50,14 +51,14 @@ T bin_exp(T a, T b){
     }
     return res % MOD;
 }
-
+ 
 template <typename T>
 T gcd(T a, T b){
     if(a > b) swap(a, b);
     if(!a) return b;
     return gcd(b % a, a) % MOD; 
 }
-
+ 
 // template <typename T>
 // T inv_mod(T a, T b){
 //     if(a > b) swap(a, b);
@@ -90,23 +91,25 @@ void Compute_Factorial(){
 //     r = r < n - r ? r : n - r;
 //     return (((n * nCr(n - 1 , r - 1)) % MOD) / r) % MOD;
 // }
-
-template<typename T>
-T nCr(T n, T r){
-    if(factorial[0] == 0) Compute_Factorial();
-    return ((factorial[n] * inv_mod(factorial[r], ll(MOD))) % MOD * inv_mod(factorial[n - r], ll(MOD))) % MOD;
-}
-
+ 
 int main(){
     FAST_IO;
-
+ 
     #ifndef ONLINE_JUDGE
         freopen("../input.txt", "r", stdin);
         freopen("../output.txt", "w", stdout);
     #endif
-
+ 
     //Write your code Here.
-
+    string s; cin >> s;
+    int n = s.size();
+    Compute_Factorial();
+    ll ans = factorial[n];
+    
+    vll map(27, 0);
+    rep(i, 0, n) map[s[i] - 'a']++;
+    rep(i, 0, 26) ans = (ans * inv_mod(factorial[map[i]], ll(MOD)) % MOD);
+    cout << ans;
     
     return 0;
 }

@@ -97,6 +97,8 @@ T nCr(T n, T r){
     return ((factorial[n] * inv_mod(factorial[r], ll(MOD))) % MOD * inv_mod(factorial[n - r], ll(MOD))) % MOD;
 }
 
+ll dp[1000001];
+
 int main(){
     FAST_IO;
 
@@ -106,7 +108,11 @@ int main(){
     #endif
 
     //Write your code Here.
-
+    int n; cin >> n;
+    dp[1] = 0;
+    dp[2] = 1;
+    rep(i, 3, n + 1) dp[i] = ((i - 1) * ((dp[i - 1] + dp[i - 2]) % MOD)) % MOD;
+    cout << dp[n];
     
     return 0;
 }

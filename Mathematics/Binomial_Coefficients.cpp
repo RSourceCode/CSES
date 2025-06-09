@@ -60,21 +60,17 @@ T gcd(T a, T b){
 
 template <typename T>
 T inv_mod(T a, T b){
-    if(a > b) swap(a, b);
-    static T x = 0, y = 0;
-    if(a == 0) {x = 1, y = 0; return x;}
-    inv_mod(a % b, a);
-    T temp_y = x;
-    x = (y - ((x * (b/a)) % MOD)) % MOD, y = temp_y % MOD;
-    return x;
+    return bin_exp(a, b - 2);
 }
-
-ll factorial[1000001];
-void compute_factorial(){
-    factorial[0] = 1; factorial[1] = 1;
-    for(ll i = 2; i < 1000001; i++) factorial[i] = factorial[i - 1] * i;
+ 
+vll factorial(1000001, 0);
+ 
+void Compute_Factorial(){
+    factorial[0] = 1;
+    factorial[1] = 1;
+    for(ll i = 2; i < 1000001; i++) factorial[i] = (factorial[i - 1] * i) % MOD;
 }
-
+ 
 // template<typename T>
 // T nCr(T n, T r){
 //     if(r == 0){
@@ -84,24 +80,13 @@ void compute_factorial(){
 //         return n % MOD;
 //     }
 //     r = r < n - r ? r : n - r;
-//     return (((n * nCr(n - 1 , r - 1)) % MOD) / r) % MOD;
+//     return (((n * nCr(n - 1 , r - 1)) % MOD) * inv_mod(r, ll(MOD))) % MOD;
 // }
-
-
 
 template<typename T>
 T nCr(T n, T r){
-    vector<vector<T>> dp(n);
-    rep(i, 1, n){
-        rep(j, 0, r < i/2 ? r : i/2){
-            if(j == 0) dp[i][j] = 1;
-            else if(j == 1) dp[i][j] = i;
-            else{
-                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
-            }
-        }
-    }
-
+    if(factorial[0] == 0) Compute_Factorial();
+    return ((factorial[n] * inv_mod(factorial[r], ll(MOD))) % MOD * inv_mod(factorial[n - r], ll(MOD))) % MOD;
 }
 
 int main(){
